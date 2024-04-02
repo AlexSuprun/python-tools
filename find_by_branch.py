@@ -29,7 +29,7 @@ if __name__ == "__main__":
 
     # Check if the branch name is passed as a command-line argument
     if len(sys.argv) != 3:
-        print("Usage: python script.py <branch_name>")
+        print("Usage: python find_by_branch.py <organization_name> <branch_name>")
         sys.exit(1)
 
     organization_name = sys.argv[1]
