@@ -22,16 +22,16 @@ def get_open_pull_requests(organization_name, user_name):
 
         for pr in pull_requests:
             if pr.user.login == user_name:
-                result.append(pr)
+                result.append((repo.name, pr))
 
     return result
 
 def save_to_temp_csv(open_pull_requests):
     with tempfile.NamedTemporaryFile(suffix=".csv", delete=False, mode='w', newline='') as temp_file:
         writer = csv.writer(temp_file)
-        writer.writerow(["Title", "User", "State", "Url", "Diff Url"])  # Write header
+        writer.writerow(["Repo Name","Title", "User", "State", "Url", "Diff Url"])  # Write header
         for pr in open_pull_requests:
-            writer.writerow([pr.title, pr.user.login, pr.state, pr.html_url, pr.diff_url])  
+            writer.writerow([pr[0], pr[1].title, pr[1].user.login, pr[1].state, pr[1].html_url, pr[1].diff_url])  
 
     os.startfile(temp_file.name)
 
@@ -46,9 +46,6 @@ if __name__ == "__main__":
     user_name = sys.argv[2]
 
     result = get_open_pull_requests(organization_name, user_name)
-
-    for pr in result:
-        print(f"{pr.title}")
 
     save_to_temp_csv(result)
 
